@@ -1,26 +1,22 @@
 pipeline {
-    //options { authorizationMatrix(permissions('minh', ['hudson.model.Item.Create','hudson.model.Item.Discover'])) }
+    options { 
+        authorizationMatrix inheritanceStrategy: nonInheriting(), 
+        permissions: [
+                'GROUP:hudson.model.Item.Build:authenticated', 
+                'USER:hudson.model.Item.Build:minh', 
+                'USER:hudson.model.Item.Cancel:minh', 
+                'USER:hudson.model.Item.Configure:minh', 
+                'USER:hudson.model.Item.Delete:minh', 
+                'GROUP:hudson.model.Item.Read:authenticated', 
+                'USER:hudson.model.Item.Read:minh'
+            ] 
+        }
     agent none
     stages {        
         stage('matrix test') {
-            agent { node { label "jenkins-node-01" } }             
             steps {                
-                script { 
-                    properties([authorizationMatrix(
-                        inheritanceStrategy: inheritingGlobal(), 
-                        permissions: [
-                            'hudson.model.Item.Create:minh',
-                            'hudson.model.Item.Discover:minh',
-                            'hudson.model.Item.Build:minh', 
-                            'hudson.model.Item.Cancel:minh',
-                            'hudson.model.Item.Discover:hoa',
-                            'hudson.model.Item.Read:hoa',
-                            'hudson.model.Item.Discover:danghung',
-                            'hudson.model.Item.Read:danghung'
-                            ]
-                        )]) 
-                    sh "echo matrix works!!"                     
-                }
+                sleep 10
+                echo 'Hello World'
             }
         }
     }
