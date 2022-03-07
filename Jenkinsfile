@@ -1,27 +1,33 @@
 pipeline {
-    //options { authorizationMatrix(permissions('minh', ['hudson.model.Item.Create','hudson.model.Item.Discover'])) }
+    options { 
+        authorizationMatrix inheritanceStrategy: nonInheriting(), 
+        permissions: [
+                'GROUP:hudson.model.Item.Build:authenticated', 
+                'USER:hudson.model.Item.Build:minh', 
+                'USER:hudson.model.Item.Build:danghung', 
+                'USER:hudson.model.Item.Cancel:minh', 
+                'USER:hudson.model.Item.Cancel:danghung', 
+                'USER:hudson.model.Item.Configure:minh', 
+                'USER:hudson.model.Item.Configure:danghung', 
+                'USER:hudson.model.Item.Delete:minh', 
+                'USER:hudson.model.Item.Delete:danghung', 
+                'GROUP:hudson.model.Item.Read:authenticated', 
+                'USER:hudson.model.Item.Read:minh', 
+                'USER:hudson.model.Item.Read:danghung'
+            ] 
+        }
     agent none
     stages {        
-        stage('base matrix test') {
-            agent { node { label "jenkins-node-01" } }             
+        stage('matrix test') {
             steps {                
-                script { 
-                    properties([authorizationMatrix(
-                        inheritanceStrategy: inheritingGlobal(), 
-                        permissions: [
-                            'hudson.model.Item.Discover:minh',
-                            'hudson.model.Item.Build:minh', 
-                            'hudson.model.Item.Cancel:minh',
-                            'hudson.model.Item.Read:minh',
-                            'hudson.model.Item.Discover:hoa',
-                            'hudson.model.Item.Build:hoa', 
-                            'hudson.model.Item.Cancel:hoa',
-                            'hudson.model.Item.Read:hoa'
-                            ]
-                        )]) 
-                    sh "echo matrix works!!"                     
-                }                
+                sleep 10
+                echo 'Hello World'
             }
-        } 
+        }
+    }
+    post { 
+        success { 
+            echo 'Fin'
+        }
     }    
 }
