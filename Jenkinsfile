@@ -1,8 +1,7 @@
 pipeline {
     options { 
         authorizationMatrix inheritanceStrategy: nonInheriting(), 
-        permissions: [
-                'GROUP:hudson.model.Item.Build:authenticated', 
+        permissions: [ 
                 'USER:hudson.model.Item.Build:danghung', 
                 'USER:hudson.model.Item.Cancel:danghung', 
                 'USER:hudson.model.Item.Configure:danghung', 
